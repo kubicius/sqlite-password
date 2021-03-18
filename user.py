@@ -28,10 +28,14 @@ class User:
                     h = Hash()
                     salt = h.generateSalt()
                     hashedPassword = h.encryptPassword(password, salt)
-                    if self.db.addUser(login, hashedPassword, salt):
-                        return "Account created successfully."
+                    result = self.db.addUser(login, hashedPassword, salt)
+                    if result == 'login_exist':
+                        return "Login already exists."
                     else:
-                        return f"Database error occurred. Check {cfg.log['output']} file."
+                        if result == True:
+                            return "Account created successfully."
+                        else:
+                            return f"Database error occurred. Check {cfg.log['output']} file."
                 else:
                     return "Passwords do not match."
             else:
@@ -39,5 +43,19 @@ class User:
         else:
             return "Login should have between 8 - 16 characters."
 
-
-
+    def checkCredentials(self, login, password):
+        """
+        Checks if login and password are matching each other.
+        :param login: string
+        :param password: string
+        :return: boolean
+        """
+        user = self.db.selectUser(login)
+        correctPassword = user[1]
+        salt = user[2]
+        h = Hash()
+        hashedPassword = h.encryptPassword(password, salt)
+        if(hashedPassword == correctPassword):
+            return True
+        else:
+            return False

@@ -1,6 +1,7 @@
 import unittest
 import validation as v
 
+
 class TestValidation(unittest.TestCase):
     """
         A class to test validation of data.

@@ -34,4 +34,7 @@ class Hash:
         :param salt: string
         :return: string
         """
-        return hashlib.pbkdf2_hmac('sha256', b'password', b'salt', 100000)
+        if not type(password) == bytes:
+            password = password.encode()
+        encrypted = hashlib.pbkdf2_hmac('sha256', password, salt, 100000)
+        return encrypted.hex()

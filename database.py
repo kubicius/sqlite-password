@@ -39,7 +39,7 @@ class Database:
         self.cursor.execute(query, (login,))
         result = self.cursor.fetchone()
         self.con.commit()
-        if(result):
+        if(result != 'None'):
             return result
         else:
             return False
