@@ -1,1 +1,6 @@
 
+2021-03-18 14:41:18,363 SQLite error: near "SET": syntax error
+2021-03-18 14:45:25,090 SQLite error: near "Januszek": syntax error
+2021-03-18 14:45:55,221 SQLite error: near "'\x03\x94\xa2\xed\xe32\xc9\xa1>\xb8.\x9b$c\x16\x04\xc3\x1d\xf9x\xb4\xe2\xf0\xfb\xd2\xc5I\x94O\x9dy\xa5'": syntax error
+2021-03-18 14:46:29,203 SQLite error: unrecognized token: "\"
+2021-03-18 14:48:41,792 User "Januszek" added to database.

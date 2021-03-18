@@ -33,6 +33,21 @@ class Database:
             logging.error('SQLite error: %s' % (' '.join(er.args)))
             return False
 
+    def insertUser(self, login, password, salt):
+        """
+        Inserts "user" to "users" table
+        :return: boolean
+        """
+        query = f"INSERT INTO users VALUES (?, ?, ?)"
+        try:
+            self.cursor.execute(query, (login, password, salt))
+            self.con.commit()
+            logging.info(f'User "{login}" added to database.')
+            return True
+        except sqlite3.Error as er:
+            logging.error('SQLite error: %s' % (' '.join(er.args)))
+            return False
+
     def _checkDatabase(self):
         """
         Checks database validity and if needed run functions to create proper structure.
