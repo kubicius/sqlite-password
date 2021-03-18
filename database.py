@@ -48,10 +48,7 @@ class Database:
         if(self._isThereUsersTable()):
             return True
         else:
-            if(self.createUsersTable()):
-                return True
-            else:
-                return False
+            return self._createUsersTable()
 
     def _isThereUsersTable(self):
         """
@@ -61,16 +58,23 @@ class Database:
         query = "SELECT name FROM sqlite_master WHERE type='table' AND name='users'"
         self.cursor.execute(query)
         result = self.cursor.fetchone()
-        if(self.con.commit()):
+        self.con.commit()
+        if(result):
             return True
         else:
             return False
 
-    def createUsersTable(self):
+    def _createUsersTable(self):
         """
         Create "users" table
         :return: boolean
         """
         query = "CREATE TABLE users(login VARCHAR UNIQUE, password VARCHAR, salt VARCHAR)"
-        self.cursor.execute(query)
-        self.con.commit()
+        try:
+            self.cursor.execute(query)
+            self.con.commit()
+            self.logging.info('Created "users" table')
+            return True
+        except sqlite3.Error as er:
+            self.logging.error('SQLite error: %s' % (' '.join(er.args)))
+            return False
