@@ -1,43 +1,36 @@
 import sqlite3
-import cursor
+import logging
+import config as cfg
 
 class Database:
     """
-     A class to manage sqlite3 database.
 
-     ...
+        A class to manage sqlite3 database.
 
-     Attributes
-     ----------
-     logging : Logging object
+        ...
 
-     Methods
-     -------
-     connect(file=""):
-         Connects to database.
+        Methods
+        -------
+        connect(file=""):
+        Connects to database.
 
-     """
-
-    def __init__(self, logging):
-        self.logging = logging
-
+    """
     def connect(self, file):
         """
         Connects to database and run _checkDatabase function.
         :param file: Database location
         :return: boolean
         """
-
-        self.con = sqlite3.connect(file)
-        if(self.con):
+        try:
+            self.con = sqlite3.connect(file)
             self.cursor = self.con.cursor()
-            if(self._checkDatabase()):
+            if (self._checkDatabase()):
                 return True
             else:
-                self.logging.error('Database structure is corrupted')
+                logging.error('Database structure is corrupted')
                 return False
-        else:
-            self.logging.error('Connection to database failed')
+        except sqlite3.Error as er:
+            logging.error('SQLite error: %s' % (' '.join(er.args)))
             return False
 
     def _checkDatabase(self):
@@ -73,8 +66,8 @@ class Database:
         try:
             self.cursor.execute(query)
             self.con.commit()
-            self.logging.info('Created "users" table')
+            logging.info('Created "users" table')
             return True
         except sqlite3.Error as er:
-            self.logging.error('SQLite error: %s' % (' '.join(er.args)))
+            logging.error('SQLite error: %s' % (' '.join(er.args)))
             return False

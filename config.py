@@ -1,7 +1,7 @@
 db = {
-    "file": 'password.db'
+    "file": 'sqlite/password.db'
 }
 log = {
-    "output": 'app.log',
+    "output": 'logs/app.log',
     "format": '%(asctime)s %(message)s',
 }
