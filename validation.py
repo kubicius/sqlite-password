@@ -3,21 +3,7 @@ import re
 
 class Validation:
     """
-
         A class to validate data.
-
-        ...
-        Methods
-        -------
-        validateLogin(login=""):
-        Validates login.
-
-        validatePassword(password="")
-        Validates password.
-
-        validatePasswordMatch(password="", passwordMatch="")
-        Checks if two passwords are the same.
-
     """
     def validateLogin(self, login):
         """

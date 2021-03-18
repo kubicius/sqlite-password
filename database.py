@@ -4,16 +4,7 @@ import config as cfg
 
 class Database:
     """
-
         A class to manage sqlite3 database.
-
-        ...
-
-        Methods
-        -------
-        connect(file=""):
-        Connects to database.
-
     """
     def connect(self, file):
         """
@@ -33,7 +24,27 @@ class Database:
             logging.error('SQLite error: %s' % (' '.join(er.args)))
             return False
 
-    def insertUser(self, login, password, salt):
+    def addUser(self, login, password, salt):
+        if self.selectUser(login):
+            return 'login_exist'
+        else:
+            return self._insertUser(login, password, salt)
+
+    def selectUser(self, login):
+        """
+        Checks if "users" table is present in the database.
+        :return: boolean
+        """
+        query = "SELECT * FROM users WHERE login = ?"
+        self.cursor.execute(query, (login,))
+        result = self.cursor.fetchone()
+        self.con.commit()
+        if(result):
+            return result
+        else:
+            return False
+
+    def _insertUser(self, login, password, salt):
         """
         Inserts "user" to "users" table
         :return: boolean
@@ -77,7 +88,7 @@ class Database:
         Create "users" table
         :return: boolean
         """
-        query = "CREATE TABLE users(login VARCHAR UNIQUE, password VARCHAR, salt VARCHAR)"
+        query = "CREATE TABLE users(login VARCHAR UNIQUE NOT NULL, password VARCHAR NOT NULL, salt VARCHAR NOT NULL)"
         try:
             self.cursor.execute(query)
             self.con.commit()

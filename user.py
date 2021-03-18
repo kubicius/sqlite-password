@@ -5,18 +5,10 @@ import config as cfg
 
 class User:
     """
-
         A class to manage user account.
-
         ...
         Arguments
         database: Database object
-
-        Methods
-        -------
-        add(login="", password="", passwordMatch=""):
-        Adds user.
-
     """
     def __init__(self, database):
         self.db = database
@@ -36,7 +28,7 @@ class User:
                     h = Hash()
                     salt = h.generateSalt()
                     hashedPassword = h.encryptPassword(password, salt)
-                    if self.db.insertUser(login, hashedPassword, salt):
+                    if self.db.addUser(login, hashedPassword, salt):
                         return "Account created successfully."
                     else:
                         return f"Database error occurred. Check {cfg.log['output']} file."

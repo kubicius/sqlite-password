@@ -2,7 +2,9 @@ import unittest
 import validation as v
 
 class TestValidation(unittest.TestCase):
-
+    """
+        A class to test validation of data.
+    """
     def test_validatePassword_uppercase(self):
         validation = v.Validation()
         self.assertTrue(validation.validatePassword('Testcase123?'))
